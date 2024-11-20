@@ -79,7 +79,7 @@ export async function fetchOrders({ marketplaceId }) {
 
     try {
         const response = await axios.get(
-            `${SP_API_ENDPOINT}/orders/v0/orders?MarketplaceIds=${marketplaceId}&CreatedAfter=2012-01-01`,
+            `${SP_API_ENDPOINT}/orders/v0/orders?MarketplaceIds=${marketplaceId}&CreatedAfter=2020-10-10`,
             config
         );
         return response.data;
