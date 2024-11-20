@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import AWS from 'aws-sdk';
 
 AWS.config.update({
@@ -9,15 +9,13 @@ AWS.config.update({
 
 const s3 = new AWS.S3();
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse<{ signedUrl: string } | { message: string }>
-) {
+export async function POST(req: NextRequest) {
     if (req.method !== 'POST') {
-        return res.status(405).json({ message: 'Method not allowed' });
+        return NextResponse.json({ message: 'Method not allowed' }, { status: 405 });
     }
 
-    const { filename, fileType } = req.body;
+    const body = await req.json();
+    const { filename, fileType } = body;
 
     const params = {
         Bucket: process.env.AWS_S3_BUCKET!,
@@ -28,9 +26,9 @@ export default async function handler(
 
     try {
         const signedUrl = await s3.getSignedUrlPromise('putObject', params);
-        res.status(200).json({ signedUrl });
+        return NextResponse.json({ signedUrl }, { status: 200 });
     } catch (error) {
         console.error('Error generating signed URL:', error);
-        res.status(500).json({ message: 'Failed to generate upload URL' });
+        return NextResponse.json({ message: 'Failed to generate upload URL' }, { status: 500 });
     }
 }

@@ -8,7 +8,7 @@ type Order = {
   [key: string]: string | number | boolean | object;
 };
 
-export default async function handler(
+export async function GET(
   req: NextApiRequest,
   res: NextApiResponse<Order[] | { message: string }>
 ) {
