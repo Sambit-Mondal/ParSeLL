@@ -1,37 +1,30 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
+'use client';
+import { Inter } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
+import { usePathname } from "next/navigation";
+import { metadata } from "./metadata";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
-
-export const metadata: Metadata = {
-  title: "ParSeLL",
-  description: "ParSeLL is an innovative solution designed to streamline the international selling experience for businesses across borders.",
-};
+const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" />
+        <title>{String(metadata.title)}</title>
+        <meta name="description" content={metadata.description || ""} />
+        <link rel="icon" type="image/x-icon" href="/favicon-32x32.png" sizes="any" />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={inter.className}>
+        {pathname !== "/auth" && <Navbar />}
         {children}
+        {pathname !== "/auth"}
       </body>
     </html>
   );

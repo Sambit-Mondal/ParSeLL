@@ -7,7 +7,13 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'body-bg': '#E3E6E6',
+        'navbar-bg': '#046D48',
+        'auth-bg': '#12826e'
+      }
+    },
   },
   plugins: [],
 } satisfies Config;
