@@ -11,7 +11,7 @@ function generateUniqueID(role: string): string {
 
 export async function POST(req: NextRequest) {
     try {
-        const { username, name, email, password, phone, role } = await req.json();
+        const { username, name, email, password, phone, role, country } = await req.json();
         await connectDB();
 
         const existingUser = await UserModel.findOne({ email });
@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
             phone,
             role,
             uniqueID,
+            country
         });
 
         await newUser.save();

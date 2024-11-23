@@ -12,6 +12,7 @@ const mongooseUserSchema = new Schema({
     role: { type: String, required: true, enum: ['Seller', 'Buyer'] },
     address: { type: String },
     uniqueID: { type: String, required: true, unique: true },
+    country: { type: String, required: true },
 });
 
 interface IUser extends Document, z.infer<typeof UserSchema> { }

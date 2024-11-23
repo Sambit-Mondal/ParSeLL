@@ -1,9 +1,14 @@
 'use client';
-import { redirect } from 'next/navigation';
+import Navbar from '@/components/Navbar'
+import React from 'react'
 
 const Home = () => {
-  redirect('/auth');
-  return null;
+
+  return (
+    <div className='bg-body-bg w-full h-screen'>
+      <Navbar />
+    </div>
+  )
 }
 
 export default Home

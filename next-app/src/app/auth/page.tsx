@@ -6,6 +6,7 @@ import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import axios, { AxiosError } from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { CountryDropdown } from 'react-country-region-selector';
 
 const Auth = () => {
     const route = useRouter();
@@ -21,6 +22,7 @@ const Auth = () => {
         confirmPassword: '',
         role: '',
         uniqueID: '',
+        country: ''
     });
 
     const handleSignupClick = () => {
@@ -59,6 +61,7 @@ const Auth = () => {
                     role: formData.role,
                     password: formData.password,
                     phone: formData.phone,
+                    country: formData.country
                 });
 
                 toast.success('Signup successful', {
@@ -251,20 +254,33 @@ const Auth = () => {
 
 
                         {isSignup &&
-                            <div className='relative flex flex-col w-full'>
-                                <label className={`text-white pb-1 font-bold ${isSignup ? '' : 'mt-5'}`}>Phone</label>
-                                <div className='relative'>
-                                    <PhoneIcon className='absolute left-2 top-1/2 transform -translate-y-1/2 size-5 text-gray-600' />
-                                    <input
-                                        type='phone'
-                                        name='phone'
-                                        placeholder='Enter your Phone number'
-                                        className='pl-10 p-2 border border-gray-300 rounded w-full'
-                                        value={formData.phone}
-                                        onChange={handleChange}
-                                    />
+                            <>
+                                <div className='relative flex flex-col w-full'>
+                                    <label className={`text-white pb-1 font-bold ${isSignup ? '' : 'mt-5'}`}>Phone</label>
+                                    <div className='relative'>
+                                        <PhoneIcon className='absolute left-2 top-1/2 transform -translate-y-1/2 size-5 text-gray-600' />
+                                        <input
+                                            type='phone'
+                                            name='phone'
+                                            placeholder='Enter your Phone number'
+                                            className='pl-10 p-2 border border-gray-300 rounded w-full'
+                                            value={formData.phone}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
+
+                                <div className='relative flex flex-col w-full'>
+                                    <label className={`text-white pb-1 font-bold ${isSignup ? '' : 'mt-5'}`}>Country</label>
+                                    <div className='relative'>
+                                        <CountryDropdown
+                                            value={formData.country}
+                                            onChange={(val) => setFormData({ ...formData, country: val })}
+                                            classes='pl-10 p-2 border border-gray-300 rounded w-full'
+                                        />
+                                    </div>
+                                </div>
+                            </>
                         }
 
                         <div className='relative flex flex-col w-full'>
