@@ -52,7 +52,7 @@ const Navbar = () => {
 
     return (
         <>
-            <div onClick={toggleNavbar} className='absolute top-4 left-4 z-[90] text-white cursor-pointer size-10 font-extrabold'>
+            <div onClick={toggleNavbar} className='fixed top-4 left-4 z-[90] text-white cursor-pointer size-10 p-2 font-extrabold bg-background-theme flex items-center justify-center rounded-full border-2 border-blue-theme'>
                 {isOpen ? <Cross1Icon className='size-6' /> : <HamburgerMenuIcon className='size-6' />}
             </div>
             {isOpen &&
