@@ -52,8 +52,8 @@ const Navbar = () => {
 
     return (
         <>
-            <div onClick={toggleNavbar} className='fixed top-4 left-4 z-[90] text-white cursor-pointer'>
-                {isOpen ? <Cross1Icon /> : <HamburgerMenuIcon />}
+            <div onClick={toggleNavbar} className='absolute top-4 left-4 z-[90] text-white cursor-pointer size-10 font-extrabold'>
+                {isOpen ? <Cross1Icon className='size-6' /> : <HamburgerMenuIcon className='size-6' />}
             </div>
             {isOpen &&
                 <div className='fixed inset-0 bg-black bg-opacity-70 z-40' />
