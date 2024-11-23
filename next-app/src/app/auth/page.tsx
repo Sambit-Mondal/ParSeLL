@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { BriefcaseIcon, EnvelopeIcon, KeyIcon, PhoneIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import { BriefcaseIcon, EnvelopeIcon, KeyIcon, NumberedListIcon, PhoneIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons';
 import axios, { AxiosError } from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -19,7 +19,8 @@ const Auth = () => {
         phone: '',
         password: '',
         confirmPassword: '',
-        role: ''
+        role: '',
+        uniqueID: '',
     });
 
     const handleSignupClick = () => {
@@ -100,17 +101,18 @@ const Auth = () => {
                 const response = await axios.post('/api/login', {
                     email: formData.email,
                     role: formData.role,
+                    uniqueID: formData.uniqueID,
                     password: formData.password,
                 });
-            
+
                 if (response.status === 200) {
                     const token = response.data.token;
                     const dashboard = response.data.dashboard;
-            
+
                     // Store the token and user email in localStorage
                     localStorage.setItem('auth-token', token);
                     localStorage.setItem('user-email', formData.email);
-            
+
                     toast.success('Login successful', {
                         position: 'top-center',
                         autoClose: 5000,
@@ -120,9 +122,9 @@ const Auth = () => {
                         draggable: true,
                         progress: undefined,
                     });
-            
+
                     // Redirect to the respective dashboard
-                    route.push(`/${dashboard}`);
+                    route.push(`/${dashboard}/dashboard`);
                 }
             } catch (error) {
                 toast.error('Login failed: ' + ((error as AxiosError<{ message: string }>).response?.data?.message || 'Unknown error'), {
@@ -134,14 +136,14 @@ const Auth = () => {
                     draggable: true,
                     progress: undefined,
                 });
-            }            
+            }
         }
     };
 
     return (
-        <div className='bg-body-bg w-full h-screen flex items-center justify-center'>
+        <div className='bg-background-theme w-full h-screen flex items-center justify-center'>
             <ToastContainer />
-            <div className={`bg-navbar-bg w-[70%] flex items-center justify-center rounded-lg drop-shadow-xl shadow-xl shadow-gray-700 h-[70%] transition-all duration-500 ease-in-out ${isSignup ? 'flex-row-reverse' : ''}`}>
+            <div className={`bg-modal-theme w-[70%] flex items-center justify-center rounded-lg drop-shadow-xl shadow-xl shadow-gray-700 h-[70%] transition-all duration-500 ease-in-out ${isSignup ? 'flex-row-reverse' : ''}`}>
 
                 {/* Welcome Section */}
                 <div className='w-1/2 h-full flex items-center justify-between gap-28 flex-col text-center text-white p-10'>
@@ -154,7 +156,7 @@ const Auth = () => {
                             {isSignup ? 'Already have an account?' : 'Don\'t have an account?'}
                         </div>
                         <button
-                            className='text-white border-[1px] border-white rounded-md w-full py-2 text-sm transition duration-200 ease-in-out hover:bg-green-950'
+                            className='text-white border-[1px] border-white rounded-md w-full py-2 text-sm transition duration-200 ease-in-out hover:bg-gray-800'
                             onClick={handleSignupClick}
                         >
                             {isSignup ? 'Login' : 'Signup'}
@@ -163,7 +165,7 @@ const Auth = () => {
                 </div>
 
                 {/* Signin/Signup */}
-                <form className={`w-3/4 h-full flex items-center flex-col p-8 py-4 bg-auth-bg ${!isSignup ? 'rounded-r-md' : 'rounded-l-md'}`} onSubmit={handleSubmit}>
+                <form className={`w-3/4 h-full flex items-center flex-col p-8 py-4 bg-gray-500 ${!isSignup ? 'rounded-r-md' : 'rounded-l-md'}`} onSubmit={handleSubmit}>
                     <div className={`w-full h-full overflow-hidden overflow-y-auto flex flex-col items-center justify-between px-4 ${isSignup ? 'p-5 gap-6' : ''}`}>
                         {isSignup &&
                             <>
@@ -229,6 +231,23 @@ const Auth = () => {
                                 </select>
                             </div>
                         </div>
+
+                        {!isSignup &&
+                            <div className='relative flex flex-col w-full'>
+                                <label className={`text-white pb-1 font-bold ${isSignup ? '' : 'mt-5'}`}>Unique ID</label>
+                                <div className='relative'>
+                                    <NumberedListIcon className='absolute left-2 top-1/2 transform -translate-y-1/2 size-5 text-gray-600' />
+                                    <input
+                                        type='text'
+                                        name='uniqueID'
+                                        placeholder='Enter your Unique ID'
+                                        className='pl-10 p-2 border border-gray-300 rounded w-full'
+                                        value={formData.uniqueID}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                            </div>
+                        }
 
 
                         {isSignup &&

@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectDB, UserModel } from '@/utils/users-db';
+import { sendEmail } from '@/utils/email';
 import bcrypt from 'bcrypt';
 
-// Handle POST requests
+function generateUniqueID(role: string): string {
+    const prefix = role === 'Seller' ? 'SELL-' : 'BUY-';
+    const randomID = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit random ID
+    return `${prefix}${randomID}`;
+}
+
 export async function POST(req: NextRequest) {
     try {
         const { username, name, email, password, phone, role } = await req.json();
@@ -14,6 +20,7 @@ export async function POST(req: NextRequest) {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
+        const uniqueID = generateUniqueID(role);
 
         const newUser = new UserModel({
             username,
@@ -22,13 +29,19 @@ export async function POST(req: NextRequest) {
             password: hashedPassword,
             phone,
             role,
+            uniqueID,
         });
 
         await newUser.save();
 
-        return NextResponse.json({ message: 'User created successfully' }, { status: 201 });
+        // Send the unique ID to the user's email
+        const subject = 'Welcome to ParSeLL';
+        const text = `Hello, welcome to ParSeLL! Your unique ID is: ${uniqueID}`;
+        await sendEmail(email, subject, text);
+
+        return NextResponse.json({ message: 'User created successfully, check your email for your unique ID.', uniqueID }, { status: 201 });
     } catch (error) {
-        console.error('Signup Error:', error);  // Log the error for debugging
+        console.error('Signup Error:', error);
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
         return NextResponse.json({ message: 'Internal Server Error', error: errorMessage }, { status: 500 });
     }

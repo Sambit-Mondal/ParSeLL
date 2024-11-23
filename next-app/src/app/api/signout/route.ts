@@ -4,7 +4,7 @@ export async function POST() {
     try {
         // Clear the JWT token from cookies
         const response = NextResponse.json({ message: 'Signout successful' }, { status: 200 });
-        response.cookies.set('auth-token', '', { httpOnly: true, path: '/', expires: new Date(0) });
+        response.cookies.set('auth-token', '', { httpOnly: true, path: '/auth', expires: new Date(0) });
 
         return response;
     } catch (error) {

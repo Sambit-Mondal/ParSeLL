@@ -11,6 +11,7 @@ const mongooseUserSchema = new Schema({
     phone: { type: String, required: true, length: 10 },
     role: { type: String, required: true, enum: ['Seller', 'Buyer'] },
     address: { type: String },
+    uniqueID: { type: String, required: true, unique: true },
 });
 
 interface IUser extends Document, z.infer<typeof UserSchema> { }
@@ -18,4 +19,23 @@ interface IUser extends Document, z.infer<typeof UserSchema> { }
 // Mongoose model
 const UserModel: Model<IUser> = mongoose.models.User || mongoose.model<IUser>('User', mongooseUserSchema);
 
-export { UserModel };
+// Database connection
+const connectDB = async () => {
+    if (mongoose.connection.readyState >= 1) return;
+
+    try {
+        const mongoUri = process.env.MONGODB_URL;
+        if (!mongoUri) {
+            throw new Error("MONGODB_URI is not defined");
+        }
+        await mongoose.connect(mongoUri, {
+            useUnifiedTopology: true,
+        } as mongoose.ConnectOptions);
+        console.log("MongoDB connected");
+    } catch (error) {
+        console.error("MongoDB connection error:", error);
+        process.exit(1);
+    }
+};
+
+export { connectDB, UserModel };
