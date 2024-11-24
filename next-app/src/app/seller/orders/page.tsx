@@ -120,7 +120,7 @@ const ManageOrders = () => {
                     <table className="w-full">
                         <thead className="font-extrabold border-b-2 border-blue-theme text-white">
                             <tr>
-                                <th className="py-2 px-4 text-center">Order ID</th>
+                                <th className="py-2 px-4 text-center">Product ID</th>
                                 <th className="py-2 px-4 text-center">Product Name</th>
                                 <th className="py-2 px-4 text-center">Buyer Name</th>
                                 <th className="py-2 px-4 text-center">Order Date</th>
@@ -145,7 +145,7 @@ const ManageOrders = () => {
                                                 : order.status === "Pending"
                                                     ? "bg-yellow-500"
                                                     : "bg-blue-500"
-                                                } text-black rounded-md py-1 px-2 font-bold`}
+                                                } text-black rounded-md py-2 px-2 font-bold`}
                                         >
                                             <option value="Pending">Pending</option>
                                             <option value="Shipped">Shipped</option>

@@ -88,12 +88,12 @@ const TrackOrders = () => {
                     Keep an eye on your orders in real time
                 </div>
             </div>
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-5 mb-8">
-                <div className="relative flex items-center border-2 rounded-full border-blue-theme">
+            <div className="flex flex-col w-full lg:flex-row items-center justify-between gap-5 mb-8">
+                <div className="relative flex items-center border-2 w-[78%] rounded-full border-blue-theme">
                     <input
                         type="text"
                         placeholder="Search Orders"
-                        className="bg-black rounded-full py-2 px-10 text-sm text-white placeholder-gray-400"
+                        className="bg-black rounded-full py-3 px-10 w-full text-sm text-white placeholder-gray-400"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -125,7 +125,15 @@ const TrackOrders = () => {
                                     <td className="py-2 text-center">{order.productName}</td>
                                     <td className="py-2 text-center">{order.price}</td>
                                     <td className="py-2 text-center">{order.createdAt}</td>
-                                    <td className="py-2 text-center">{order.status}</td>
+                                    <td className={`${order.status === "Shipped"
+                                        ? "bg-green-500"
+                                        : order.status === "Pending"
+                                            ? "bg-yellow-500"
+                                            : "bg-blue-500"
+                                        } rounded-md py-2 font-bold flex items-center justify-center my-2 text-black text-center`}
+                                    >
+                                        {order.status}
+                                    </td>
                                 </tr>
                             ))}
                             {filteredOrders.length === 0 && (
