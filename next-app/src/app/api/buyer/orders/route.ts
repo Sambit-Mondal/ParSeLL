@@ -111,13 +111,13 @@ export async function POST(req: Request) {
 
         // Send email to buyer
         const buyerSubject = "Order Confirmation - Your order has been placed!";
-        const buyerText = `Hello ${name},\n\nThank you for your order!\n\nProduct: ${product.productName}\nQuantity: ${quantity}\nTotal Price: $${price}\nShipping Address: ${shippingAddress.street}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.zip}, ${shippingAddress.country}\n\nWe will notify you once your order is shipped.\n\nBest regards,\nParSeLL Team`;
+        const buyerText = `Hello ${name},\n\nThank you for your order!\n\nProduct: ${product.productName}\nQuantity: ${quantity}\nTotal Price: $${price}\nShipping Address: ${shippingAddress}\n\nWe will notify you once your order is shipped.\n\nBest regards,\nParSeLL Team`;
 
         await sendEmail(email, buyerSubject, buyerText);
 
         // Send email to seller
         const sellerSubject = "New Order Received - You have a new order!";
-        const sellerText = `Hello ${product.name},\n\nYou have received a new order!\n\nBuyer: ${name}\nQuantity: ${quantity}\nTotal Price: $${price}\nShipping Address: ${shippingAddress.street}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.zip}, ${shippingAddress.country}\n\nPlease prepare the product for shipping.\n\nBest regards,\nParSeLL Team`;
+        const sellerText = `Hello ${product.name},\n\nYou have received a new order!\n\nBuyer: ${name}\nQuantity: ${quantity}\nTotal Price: $${price}\nShipping Address: ${shippingAddress}\n\nPlease prepare the product for shipping.\n\nBest regards,\nParSeLL Team`;
 
         await sendEmail(product.email, sellerSubject, sellerText);
 
