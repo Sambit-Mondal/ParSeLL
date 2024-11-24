@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, models } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 const productSchema = new Schema({
     productId: {
@@ -26,6 +26,10 @@ const productSchema = new Schema({
         type: String,
         required: true,
     },
+    name: {
+        type: String,
+        required: true,
+    }
 }, { timestamps: true });
 
 export const Product = models.Product || model("Product", productSchema);

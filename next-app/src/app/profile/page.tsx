@@ -34,7 +34,6 @@ const Profile = () => {
                 }
                 const data = await response.json();
                 setUserData(data);
-                toast.success('User data loaded successfully!', { autoClose: 2000 });
             } catch (error) {
                 toast.error('Failed to load user data');
                 console.error('Fetch User Error:', error);

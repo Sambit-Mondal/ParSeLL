@@ -12,6 +12,7 @@ interface Product {
     quantityAvailable: string;
     sellerID: string;
     country: string;
+    name: string;
 }
 
 const ManageProducts = () => {
@@ -26,12 +27,14 @@ const ManageProducts = () => {
         price: "",
         quantityAvailable: "",
         sellerID: "",
-        country: ""
+        country: "",
+        name: ""
     });
     const [userData, setUserData] = useState({
         uniqueID: '',
         country: '',
-        email: ''
+        email: '',
+        name: ''
     });
 
     // Fetch products from the API
@@ -69,7 +72,7 @@ const ManageProducts = () => {
             }
             const data = await response.json();
             setUserData(data);
-            console.log('Fetched user data:', data); // Log user data
+            console.log('Fetched user data:', data);
         } catch (error) {
             console.error('Error fetching user data:', error);
             toast.error('Failed to fetch user data');
@@ -103,7 +106,8 @@ const ManageProducts = () => {
                 body: JSON.stringify({
                     ...newProduct,
                     sellerID: userData.uniqueID, 
-                    country: userData.country
+                    country: userData.country,
+                    name: userData.name
                 }),
             });
             const data = await response.json();
@@ -116,7 +120,8 @@ const ManageProducts = () => {
                     price: "",
                     quantityAvailable: "",
                     sellerID: userData.uniqueID,
-                    country: userData.country
+                    country: userData.country,
+                    name: userData.name
                 });
                 setIsPopupOpen(false);
                 fetchProducts();
