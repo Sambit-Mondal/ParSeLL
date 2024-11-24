@@ -64,8 +64,8 @@ const Navbar = () => {
         } else if (userData.role === 'Buyer') {
             if (pathname === '/buyer/dashboard') {
                 setActiveTab('Dashboard');
-            } else if (pathname.startsWith('/buyer/orders')) {
-                setActiveTab('Your Orders');
+            } else if (pathname.startsWith('/buyer/orders/*')) {
+                setActiveTab('Track Your Orders');
             } else if (pathname === '/buyer/orders') {
                 setActiveTab('Wishlist');
             } else if (pathname === '/buyer/chat') {
@@ -127,16 +127,13 @@ const Navbar = () => {
                                     <Link href='/seller/dashboard'>Dashboard</Link>
                                 </li>
                                 <li className={`nav-item cursor-pointer ${activeTab === 'Manage Your Orders' ? 'active' : ''}`}>
-                                    <Link href='/seller/orders'>Manage Your Orders</Link>
+                                    <Link href='/seller/orders/*'>Manage Your Orders</Link>
                                 </li>
                                 <li className={`nav-item cursor-pointer ${activeTab === 'Manage Your Documents' ? 'active' : ''}`}>
                                     <Link href='/seller/documents'>Manage Your Documents</Link>
                                 </li>
                                 <li className={`nav-item cursor-pointer ${activeTab === 'Manage Your Products' ? 'active' : ''}`}>
                                     <Link href='/seller/products'>Manage Your Products</Link>
-                                </li>
-                                <li className={`nav-item cursor-pointer ${activeTab === 'Realtime-Chat' ? 'active' : ''}`}>
-                                    <Link href='/seller/analytics'>Realtime-Chat</Link>
                                 </li>
                             </>
                         ) : (
@@ -149,9 +146,6 @@ const Navbar = () => {
                                 </li>
                                 <li className={`nav-item cursor-pointer ${activeTab === 'Product Management' ? 'active' : ''}`}>
                                     <Link href='/buyer/product'>Product Management</Link>
-                                </li>
-                                <li className={`nav-item cursor-pointer ${activeTab === 'Chat' ? 'active' : ''}`}>
-                                    <Link href='/buyer/chat'>Realtime-Chat</Link>
                                 </li>
                             </>
                         )}

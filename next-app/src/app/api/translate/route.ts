@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { TranslateClient, TranslateTextCommand } from '@aws-sdk/client-translate';
-import translateClient from '../../../lib/aws-config';
+import translateClient from '@/lib/aws-config';
 
 export async function POST(req: NextRequest) {
   const { text, sourceLang, targetLang } = await req.json();

@@ -4,6 +4,7 @@ import axios from "axios";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 interface Product {
   productId: string;
@@ -236,7 +237,9 @@ const PlaceOrder = () => {
                     >
                       Order
                     </button>
-                    <ChatBubbleIcon className="h-6 w-6 text-blue-theme cursor-pointer" />
+                    <Link href={`/buyer/chat`}>
+                      <ChatBubbleIcon className="h-6 w-6 text-blue-theme cursor-pointer" />
+                    </Link>
                   </td>
                 </tr>
               ))}
