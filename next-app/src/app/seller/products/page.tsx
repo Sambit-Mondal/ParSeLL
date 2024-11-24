@@ -13,6 +13,7 @@ interface Product {
     sellerID: string;
     country: string;
     name: string;
+    email: string;
 }
 
 const ManageProducts = () => {
@@ -28,7 +29,8 @@ const ManageProducts = () => {
         quantityAvailable: "",
         sellerID: "",
         country: "",
-        name: ""
+        name: "",
+        email: ""
     });
     const [userData, setUserData] = useState({
         uniqueID: '',
@@ -107,7 +109,8 @@ const ManageProducts = () => {
                     ...newProduct,
                     sellerID: userData.uniqueID, 
                     country: userData.country,
-                    name: userData.name
+                    name: userData.name,
+                    email: userData.email
                 }),
             });
             const data = await response.json();
@@ -121,7 +124,8 @@ const ManageProducts = () => {
                     quantityAvailable: "",
                     sellerID: userData.uniqueID,
                     country: userData.country,
-                    name: userData.name
+                    name: userData.name,
+                    email: userData.email
                 });
                 setIsPopupOpen(false);
                 fetchProducts();
