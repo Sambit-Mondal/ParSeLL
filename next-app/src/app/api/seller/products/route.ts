@@ -20,10 +20,10 @@ export async function GET() {
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
-        const { productId, productName, price, quantityAvailable, sellerID, country } = body;
+        const { productId, productName, price, quantityAvailable, sellerID, country, name, email } = body;
 
         // Validate input
-        if (!productId || !productName || price <= 0 || quantityAvailable < 0 || !sellerID || !country) {
+        if (!productId || !productName || price <= 0 || quantityAvailable < 0 || !sellerID || !country || !name || !email) {
             return NextResponse.json(
                 { success: false, message: "Invalid product data" },
                 { status: 400 }
@@ -46,7 +46,9 @@ export async function POST(req: NextRequest) {
             price,
             quantityAvailable,
             sellerID,
-            country
+            country,
+            name,
+            email
         });
 
         await newProduct.save();

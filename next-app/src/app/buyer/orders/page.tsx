@@ -1,40 +1,81 @@
 'use client';
-
 import React, { useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import Link from "next/link";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import { toast } from "react-toastify";
 
 interface Order {
     orderId: string;
     productName: string;
-    orderDate: string;
-    deliveryStatus: string;
-    estimatedDelivery: string;
+    price: number;
+    status: string,
+    createdAt: string,
 }
 
 const TrackOrders = () => {
     const [orders, setOrders] = useState<Order[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [userData, setUserData] = useState({
+        uniqueID: '',
+        country: '',
+        email: '',
+        name: ''
+    });
+
+    const fetchUserData = async () => {
+        const email = localStorage.getItem('user-email');
+
+        if (!email) {
+            toast.error('User email not found');
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/profile?email=${email}`);
+            if (!response.ok) {
+                throw new Error('Error fetching user data');
+            }
+            const data = await response.json();
+            setUserData(data);
+            console.log('Fetched user data:', data);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            toast.error('Failed to fetch user data');
+        }
+    };
+
+    useEffect(() => {
+        fetchUserData();
+    }, []);
+
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await axios.get("/api/orders");
-                setOrders(response.data);
+                const response = await axios.get(`/api/buyer/orders?buyerID=${userData.uniqueID}`);
+                if (response.data.success) {
+                    setOrders(response.data.data);
+                } else {
+                    toast.error("Failed to fetch orders");
+                }
             } catch (error) {
                 console.error("Failed to fetch orders:", error);
+                toast.error("Error fetching orders");
             }
         };
-        fetchOrders();
-    }, []);
+
+        if (userData.uniqueID) {
+            fetchOrders();
+        }
+    }, [userData.uniqueID]);
 
     const filteredOrders = orders.filter(
         (order) =>
-            order.orderId.includes(searchTerm) ||
-            order.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            order.orderDate.includes(searchTerm)
+            order.orderId?.includes(searchTerm) ||
+            order.productName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            order.createdAt?.includes(searchTerm)
     );
 
     return (
@@ -72,9 +113,9 @@ const TrackOrders = () => {
                             <tr>
                                 <th className="py-2 px-4 text-center">Order ID</th>
                                 <th className="py-2 px-4 text-center">Product</th>
-                                <th className="py-2 px-4 text-center">Order Date</th>
+                                <th className="py-2 px-4 text-center">Price</th>
                                 <th className="py-2 px-4 text-center">Delivery Status</th>
-                                <th className="py-2 px-4 text-center">Estimated Delivery</th>
+                                <th className="py-2 px-4 text-center">Order Status</th>
                             </tr>
                         </thead>
                         <tbody className="text-white">
@@ -82,9 +123,9 @@ const TrackOrders = () => {
                                 <tr key={order.orderId}>
                                     <td className="py-2 text-center">{order.orderId}</td>
                                     <td className="py-2 text-center">{order.productName}</td>
-                                    <td className="py-2 text-center">{order.orderDate}</td>
-                                    <td className="py-2 text-center">{order.deliveryStatus}</td>
-                                    <td className="py-2 text-center">{order.estimatedDelivery}</td>
+                                    <td className="py-2 text-center">{order.price}</td>
+                                    <td className="py-2 text-center">{order.createdAt}</td>
+                                    <td className="py-2 text-center">{order.status}</td>
                                 </tr>
                             ))}
                             {filteredOrders.length === 0 && (

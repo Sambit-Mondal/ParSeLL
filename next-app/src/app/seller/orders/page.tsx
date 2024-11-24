@@ -1,37 +1,98 @@
 'use client';
-
 import React, { useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 interface Order {
     orderId: string;
+    productId: string;
+    productName: string;
     buyerName: string;
-    orderDate: string;
-    totalAmount: number;
+    createdAt: string;
+    quantity: number;
     status: string;
 }
 
 const ManageOrders = () => {
     const [orders, setOrders] = useState<Order[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [userData, setUserData] = useState({
+        uniqueID: '',
+        name: ''
+    });
+
+    const fetchUserData = async () => {
+        const email = localStorage.getItem('user-email');
+
+        if (!email) {
+            toast.error('User email not found');
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/profile?email=${email}`);
+            if (!response.ok) {
+                throw new Error('Error fetching user data');
+            }
+            const data = await response.json();
+            setUserData(data);
+            console.log('Fetched user data:', data);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            toast.error('Failed to fetch user data');
+        }
+    };
+
+    useEffect(() => {
+        fetchUserData();
+    }, []);
 
     useEffect(() => {
         const fetchOrders = async () => {
-            const mockOrders: Order[] = [
-                { orderId: "ORD123", buyerName: "John Doe", orderDate: "2024-11-20", totalAmount: 150.5, status: "Shipped" },
-                { orderId: "ORD124", buyerName: "Jane Smith", orderDate: "2024-11-21", totalAmount: 300, status: "Processing" },
-                { orderId: "ORD125", buyerName: "Alice Brown", orderDate: "2024-11-22", totalAmount: 500, status: "Delivered" },
-            ];
-            setOrders(mockOrders);
+            try {
+                const response = await axios.get(`/api/seller/orders?sellerID=${userData.uniqueID}`);
+                if (response.data.success) {
+                    setOrders(response.data.data);
+                } else {
+                    toast.error("Failed to fetch orders");
+                }
+            } catch (error) {
+                console.error("Failed to fetch orders:", error);
+                toast.error("Error fetching orders");
+            }
         };
-        fetchOrders();
-    }, []);
+
+        if (userData.uniqueID) {
+            fetchOrders();
+        }
+    }, [userData.uniqueID]);
+
+    const updateOrderStatus = async (orderId: string, status: string) => {
+        try {
+            const response = await axios.patch(`/api/seller/orders`, { orderId, status });
+            if (response.data.success) {
+                toast.success("Order status updated successfully");
+                setOrders((prevOrders) =>
+                    prevOrders.map((order) =>
+                        order.orderId === orderId ? { ...order, status } : order
+                    )
+                );
+            } else {
+                toast.error(response.data.message || "Failed to update order status");
+            }
+        } catch (error) {
+            console.error("Error updating order status:", error);
+            toast.error("Failed to update order status");
+        }
+    };
 
     const filteredOrders = orders.filter(
         (order) =>
-            order.orderId.includes(searchTerm) ||
+            order.productId.includes(searchTerm) ||
             order.buyerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            order.orderDate.includes(searchTerm)
+            order.createdAt.includes(searchTerm) ||
+            order.status.includes(searchTerm)
     );
 
     return (
@@ -60,39 +121,35 @@ const ManageOrders = () => {
                         <thead className="font-extrabold border-b-2 border-blue-theme text-white">
                             <tr>
                                 <th className="py-2 px-4 text-center">Order ID</th>
+                                <th className="py-2 px-4 text-center">Product Name</th>
                                 <th className="py-2 px-4 text-center">Buyer Name</th>
                                 <th className="py-2 px-4 text-center">Order Date</th>
-                                <th className="py-2 px-4 text-center">Total Amount</th>
+                                <th className="py-2 px-4 text-center">Quantity</th>
                                 <th className="py-2 px-4 text-center">Status</th>
                             </tr>
                         </thead>
                         <tbody className="text-white">
                             {filteredOrders.map((order) => (
                                 <tr key={order.orderId}>
-                                    <td className="py-2 text-center">{order.orderId}</td>
+                                    <td className="py-2 text-center">{order.productId}</td>
+                                    <td className="py-2 text-center">{order.productName}</td>
                                     <td className="py-2 text-center">{order.buyerName}</td>
-                                    <td className="py-2 text-center">{order.orderDate}</td>
-                                    <td className="py-2 text-center">${order.totalAmount.toFixed(2)}</td>
+                                    <td className="py-2 text-center">{order.createdAt}</td>
+                                    <td className="py-2 text-center">{order.quantity}</td>
                                     <td className="py-2 text-center">
                                         <select
                                             value={order.status}
-                                            onChange={(e) => {
-                                                const updatedOrders = orders.map((o) =>
-                                                    o.orderId === order.orderId ? { ...o, status: e.target.value } : o
-                                                );
-                                                setOrders(updatedOrders);
-                                            }}
-                                            className={`${
-                                                order.status === "Shipped"
-                                                    ? "bg-green-500"
-                                                    : order.status === "Processing"
+                                            onChange={(e) => updateOrderStatus(order.orderId, e.target.value)}
+                                            className={`${order.status === "Shipped"
+                                                ? "bg-green-500"
+                                                : order.status === "Pending"
                                                     ? "bg-yellow-500"
                                                     : "bg-blue-500"
-                                            } text-black rounded-md py-1 px-2 font-bold`}
+                                                } text-black rounded-md py-1 px-2 font-bold`}
                                         >
-                                            <option value="Shipped" className="bg-green-500 font-bold">Shipped</option>
-                                            <option value="Processing" className="bg-yellow-500 font-bold">Processing</option>
-                                            <option value="Delivered" className="bg-blue-500 font-bold">Delivered</option>
+                                            <option value="Pending">Pending</option>
+                                            <option value="Shipped">Shipped</option>
+                                            <option value="Delivered">Delivered</option>
                                         </select>
                                     </td>
                                 </tr>
