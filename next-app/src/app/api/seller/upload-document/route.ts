@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import AWS from 'aws-sdk';
 
 AWS.config.update({
-    accessKeyId: process.env.AWS_ACCESS_KEY!,
-    secretAccessKey: process.env.AWS_SECRET_KEY!,
-    region: process.env.AWS_REGION!,
+    accessKeyId: process.env.NEXT_APP_AWS_ACCESS_KEY!,
+    secretAccessKey: process.env.NEXT_APP_AWS_SECRET_KEY!,
+    region: process.env.NEXT_APP_AWS_REGION!,
 });
 
 const s3 = new AWS.S3();
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     const { filename, fileType } = body;
 
     const params = {
-        Bucket: process.env.AWS_S3_BUCKET!,
+        Bucket: process.env.NEXT_APP_AWS_S3_BUCKET!,
         Key: `documents/${filename}`,
         Expires: 60,
         ContentType: fileType,

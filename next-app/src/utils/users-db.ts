@@ -25,9 +25,9 @@ const connectDB = async () => {
     if (mongoose.connection.readyState >= 1) return;
 
     try {
-        const mongoUri = process.env.MONGODB_URL;
+        const mongoUri = process.env.NEXT_APP_MONGODB_URL;
         if (!mongoUri) {
-            throw new Error("MONGODB_URI is not defined");
+            throw new Error("NEXT_APP_MONGODB_URI is not defined");
         }
         await mongoose.connect(mongoUri, {
             useUnifiedTopology: true,

@@ -5,14 +5,14 @@ export const sendEmail = async (to: string, subject: string, text: string) => {
         const transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
+                user: process.env.NEXT_APP_EMAIL_USER,
+                pass: process.env.NEXT_APP_EMAIL_PASS,
             },
         });
 
         // Send the email
         await transporter.sendMail({
-            from: `"ParSeLL" <${process.env.EMAIL_USER}>`,
+            from: `"ParSeLL" <${process.env.NEXT_APP_EMAIL_USER}>`,
             to,
             subject,
             text,

@@ -4,19 +4,19 @@ import { STSClient, AssumeRoleCommand } from "@aws-sdk/client-sts";
 
 // Load environment variables
 const {
-    AWS_ACCESS_KEY_ID,
+    NEXT_APP_AWS_ACCESS_KEY_ID,
     AWS_SECRET_ACCESS_KEY,
     ROLE_ARN,
     CLIENT_ID,
     CLIENT_SECRET,
-    REFRESH_TOKEN,
+    NEXT_APP_REFRESH_TOKEN,
     REGION,
-    SP_API_ENDPOINT
+    NEXT_APP_SP_API_ENDPOINT
 } = process.env;
 
 // Configure AWS SDK
 AWS.config.update({
-    accessKeyId: AWS_ACCESS_KEY_ID,
+    accessKeyId: NEXT_APP_AWS_ACCESS_KEY_ID,
     secretAccessKey: AWS_SECRET_ACCESS_KEY,
     region: REGION,
 });
@@ -47,8 +47,8 @@ export async function getAWSSecurityToken() {
 export async function getAccessToken() {
     const url = "https://api.amazon.com/auth/o2/token";
     const data = {
-        grant_type: "refresh_token",
-        refresh_token: REFRESH_TOKEN,
+        grant_type: "NEXT_APP_REFRESH_TOKEN",
+        NEXT_APP_REFRESH_TOKEN: NEXT_APP_REFRESH_TOKEN,
         client_id: CLIENT_ID,
         client_secret: CLIENT_SECRET,
     };
@@ -79,7 +79,7 @@ export async function fetchOrders({ marketplaceId }) {
 
     try {
         const response = await axios.get(
-            `${SP_API_ENDPOINT}/orders/v0/orders?MarketplaceIds=${marketplaceId}&CreatedAfter=2020-10-10`,
+            `${NEXT_APP_SP_API_ENDPOINT}/orders/v0/orders?MarketplaceIds=${marketplaceId}&CreatedAfter=2020-10-10`,
             config
         );
         return response.data;

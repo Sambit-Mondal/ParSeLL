@@ -15,7 +15,7 @@ export function middleware(req: NextRequest) {
 
     try {
         // Verify the JWT token
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET || 'your_secret_key');
+        const decodedToken = jwt.verify(token, process.env.NEXT_APP_JWT_SECRET || 'your_secret_key');
 
         // Redirect authenticated users away from the /auth page
         if (req.nextUrl.pathname === '/auth') {
