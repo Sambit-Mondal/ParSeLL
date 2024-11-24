@@ -8,8 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 interface Product {
     productId: string;
     productName: string;
-    price: string;
-    quantityAvailable: string;
+    price: number;
+    quantityAvailable: number;
     sellerID: string;
     country: string;
     name: string;
@@ -25,8 +25,8 @@ const ManageProducts = () => {
     const [newProduct, setNewProduct] = useState<Product>({
         productId: "",
         productName: "",
-        price: "",
-        quantityAvailable: "",
+        price: 0,
+        quantityAvailable: 0,
         sellerID: "",
         country: "",
         name: "",
@@ -107,7 +107,7 @@ const ManageProducts = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     ...newProduct,
-                    sellerID: userData.uniqueID, 
+                    sellerID: userData.uniqueID,
                     country: userData.country,
                     name: userData.name,
                     email: userData.email
@@ -120,8 +120,8 @@ const ManageProducts = () => {
                 setNewProduct({
                     productId: "",
                     productName: "",
-                    price: "",
-                    quantityAvailable: "",
+                    price: 0,
+                    quantityAvailable: 0,
                     sellerID: userData.uniqueID,
                     country: userData.country,
                     name: userData.name,
@@ -362,7 +362,10 @@ const ManageProducts = () => {
                                 placeholder="Price"
                                 value={newProduct.price}
                                 onChange={(e) =>
-                                    setNewProduct({ ...newProduct, price: e.target.value })
+                                    setNewProduct({
+                                        ...newProduct,
+                                        price: Number(e.target.value)
+                                    })
                                 }
                                 className="bg-black text-white border-2 border-blue-theme rounded-md py-2 px-4"
                             />
@@ -373,7 +376,7 @@ const ManageProducts = () => {
                                 onChange={(e) =>
                                     setNewProduct({
                                         ...newProduct,
-                                        quantityAvailable: e.target.value,
+                                        quantityAvailable: Number(e.target.value),
                                     })
                                 }
                                 className="bg-black text-white border-2 border-blue-theme rounded-md py-2 px-4"
