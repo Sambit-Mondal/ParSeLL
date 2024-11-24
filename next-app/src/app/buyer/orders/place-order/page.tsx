@@ -139,7 +139,7 @@ const PlaceOrder = () => {
       name: userData.name,
       buyerCountry: userData.country,
       price: quantity * selectedProduct.price,
-      shippingAddress: shippingAddressString,  // Send as string
+      shippingAddress: shippingAddressString,
       paymentDetails: {
         method: "Credit Card",
         transactionId: "TXN123456",

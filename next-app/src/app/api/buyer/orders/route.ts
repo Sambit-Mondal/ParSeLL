@@ -3,6 +3,7 @@ import connectDB from "@/utils/database";
 import { Order } from "@/utils/order";
 import { Product } from "@/utils/products";
 import { sendEmail } from "@/utils/email";
+import mongoose from "mongoose";
 
 export async function GET(req: Request) {
     try {
@@ -87,6 +88,7 @@ export async function POST(req: Request) {
 
         // Create the order
         const order = await Order.create({
+            orderId: new mongoose.Types.ObjectId(), // Add OrderId field
             productId: product.productId,
             productName: product.productName,
             quantity,
