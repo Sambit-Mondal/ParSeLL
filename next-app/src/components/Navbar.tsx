@@ -54,8 +54,8 @@ const Navbar = () => {
                 setActiveTab('Manage Your Orders');
             } else if (pathname === '/seller/documents') {
                 setActiveTab('Manage Your Documents');
-            } else if (pathname === '/seller/shipment') {
-                setActiveTab('Shipment Management');
+            } else if (pathname === '/seller/products') {
+                setActiveTab('Manage Your Products');
             } else if (pathname === '/seller/chat') {
                 setActiveTab('Realtime-Chat');
             } else {
@@ -132,8 +132,8 @@ const Navbar = () => {
                                 <li className={`nav-item cursor-pointer ${activeTab === 'Manage Your Documents' ? 'active' : ''}`}>
                                     <Link href='/seller/documents'>Manage Your Documents</Link>
                                 </li>
-                                <li className={`nav-item cursor-pointer ${activeTab === 'Shipment Management' ? 'active' : ''}`}>
-                                    <Link href='/seller/shipment'>Shipment Management</Link>
+                                <li className={`nav-item cursor-pointer ${activeTab === 'Manage Your Products' ? 'active' : ''}`}>
+                                    <Link href='/seller/products'>Manage Your Products</Link>
                                 </li>
                                 <li className={`nav-item cursor-pointer ${activeTab === 'Realtime-Chat' ? 'active' : ''}`}>
                                     <Link href='/seller/analytics'>Realtime-Chat</Link>

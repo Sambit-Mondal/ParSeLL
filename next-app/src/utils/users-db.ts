@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 import { z } from 'zod';
-import UserSchema from '../models/users';
+import UserSchema from '@/models/users';
 
 // Mongoose schema
 const mongooseUserSchema = new Schema({

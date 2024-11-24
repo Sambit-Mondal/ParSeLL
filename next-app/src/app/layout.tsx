@@ -19,7 +19,7 @@ export default function RootLayout({
       <head>
         <title>{String(metadata.title)}</title>
         <meta name="description" content={metadata.description || ""} />
-        <link rel="icon" type="image/x-icon" href="/favicon-32x32.png" sizes="any" />
+        <link rel="icon" type="image/x-icon" href="/" sizes="any" />
       </head>
       <body className={inter.className}>
         {pathname !== "/auth" && <Navbar />}

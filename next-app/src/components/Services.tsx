@@ -56,7 +56,7 @@ const buyerResources = [
 const sellerResources = [
     {
         image: '/Disaster-Analysis.jpeg',
-        title: 'Manage Your Orders',
+        title: 'Manage Orders',
         description: 'View and manage your orders with ease.',
         url: '/seller/orders',
     },
@@ -68,9 +68,9 @@ const sellerResources = [
     },
     {
         image: '/Insurance-Claims.png',
-        title: 'Shipment Management',
-        description: 'Track shipments with transparent, blockchain-based solutions.',
-        url: '/seller/shipment',
+        title: 'Manage Your Products',
+        description: 'Manage your products and inventory efficiently.',
+        url: '/seller/products',
     },
     {
         image: '/Chatbot.png',

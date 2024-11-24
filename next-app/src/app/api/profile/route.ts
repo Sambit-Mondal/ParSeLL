@@ -23,7 +23,9 @@ export async function GET(req: NextRequest) {
             email: user.email,
             phone: user.phone,
             address: user.address,
-            role: user.role
+            role: user.role,
+            uniqueID: user.uniqueID,
+            country: user.country
         });
     } catch (error) {
         console.error('Profile Fetch Error:', error);

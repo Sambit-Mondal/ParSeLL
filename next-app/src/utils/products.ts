@@ -11,11 +11,19 @@ const productSchema = new Schema({
         required: true,
     },
     price: {
-        type: Number,
+        type: String,
         required: true,
     },
     quantityAvailable: {
-        type: Number,
+        type: String,
+        required: true,
+    },
+    sellerID: {
+        type: String,
+        required: true,
+    },
+    country: {
+        type: String,
         required: true,
     },
 }, { timestamps: true });

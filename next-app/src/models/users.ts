@@ -9,6 +9,8 @@ const UserSchema = z.object({
   phone: z.string().length(10, { message: 'Phone number must be 10 digits long' }),
   role: z.enum(['Seller', 'Buyer'], { message: 'Invalid role. Must be Seller or Buyer' }),
   address: z.string().optional(),
+  uniqueID: z.string(),
+  country: z.string(),
 });
 
 export default UserSchema;

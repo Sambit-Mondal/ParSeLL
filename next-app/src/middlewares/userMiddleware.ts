@@ -33,5 +33,5 @@ export function middleware(req: NextRequest) {
 
 export const config = {
     // Apply middleware to the following routes
-    matcher: ['/auth', '/'],
+    matcher: ['/auth', '/', '/api/:'],
 };
