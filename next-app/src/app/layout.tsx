@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { usePathname } from "next/navigation";
 import { metadata } from "./metadata";
+import ParsX from "@/components/ParsX";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,7 @@ export default function RootLayout({
       <body className={inter.className}>
         {pathname !== "/auth" && <Navbar />}
         {children}
-        {pathname !== "/auth"}
+        {pathname !== "/auth" && <ParsX />}
       </body>
     </html>
   );

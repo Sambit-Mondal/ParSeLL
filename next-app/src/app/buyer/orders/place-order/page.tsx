@@ -4,7 +4,6 @@ import axios from "axios";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { toast } from "react-toastify";
-import Link from "next/link";
 
 interface Product {
   productId: string;
@@ -44,7 +43,6 @@ const PlaceOrder = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [orderPopupVisible, setOrderPopupVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [orders, setOrders] = useState<Order[]>([]);
   const [quantity, setQuantity] = useState<number>(1);
   const [price, setPrice] = useState<number>(0);
   const [shippingAddress, setShippingAddress] = useState({
@@ -110,6 +108,11 @@ const PlaceOrder = () => {
     setOrderPopupVisible(true);
   };
 
+  const handleChatClick = (product: Product) => {
+    const url = `/chat/buyer?sellerID=${product.sellerID}&buyerID=${userData.uniqueID}`;
+    window.location.href = url;
+  };
+
   const handlePlaceOrder = async () => {
     if (!selectedProduct) {
       toast.error("No product selected!", { position: "top-center" });
@@ -146,7 +149,7 @@ const PlaceOrder = () => {
       },
     };
 
-    console.log("Order Payload:", payload); // Debugging: check payload
+    console.log("Order Payload:", payload);
 
     try {
       const response = await fetch(`/api/buyer/orders?email=${userData.email}`, {
@@ -237,9 +240,11 @@ const PlaceOrder = () => {
                     >
                       Order
                     </button>
-                    <Link href={`/buyer/chat`}>
+                    <button
+                      onClick={() => handleChatClick(product)}
+                    >
                       <ChatBubbleIcon className="h-6 w-6 text-blue-theme cursor-pointer" />
-                    </Link>
+                    </button>
                   </td>
                 </tr>
               ))}

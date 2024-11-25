@@ -5,6 +5,10 @@ import translateClient from '@/lib/aws-config';
 export async function POST(req: NextRequest) {
   const { text, sourceLang, targetLang } = await req.json();
 
+  if (!text || !sourceLang || !targetLang) {
+    return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+  }
+
   try {
     const command = new TranslateTextCommand({
       Text: text,
