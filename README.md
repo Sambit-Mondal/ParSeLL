@@ -25,8 +25,41 @@
    ```bash
    npm install
    ```
+
+4. Create a `.env` file and fill in the following:
+```bash
+# AWS Configuration
+NEXT_APP_AWS_ACCESS_KEY="your_aws_access_key"
+NEXT_APP_AWS_SECRET_KEY="your_aws_secret_key"
+NEXT_APP_AWS_REGION="ap-south-1"
+NEXT_APP_AWS_S3_BUCKET="parsell-amazon-smbhav"
+
+# Amazon Selling Partner API Configuration
+NEXT_APP_LWA_APP_ID="your_lwa_app_id"
+NEXT_APP_LWA_CLIENT_SECRET="your_lwa_client_secret"
+NEXT_APP_REFRESH_TOKEN="your_refresh_token"
+NEXT_APP_SP_API_ENDPOINT="https://sellingpartnerapi-eu.amazon.com"
+NEXT_APP_MARKETPLACE_ID="A21TJRUUN4KGV"
+
+# MongoDB Configuration
+NEXT_APP_MONGODB_URI="mongodb://localhost:27017/"
+NEXT_APP_MONGODB_URL="mongodb://localhost:27017/ParSeLL"
+NEXT_APP_MONGODB_DB="ParSeLL"
+
+# Security Configuration
+NEXT_APP_JWT_SECRET="your_jwt_secret"
+
+# Email Configuration
+NEXT_APP_EMAIL_USER="your_email_user"
+NEXT_APP_EMAIL_PASS="your_email_password"
+
+# Other API Keys
+NEXT_APP_GROQ_API_KEY="your_groq_api_key"
+GOOGLE_API_KEY="your_google_api_key"
+PINECONE_API_KEY="your_pinecone_api_key"
+```
   
-4. Start the development server:
+5. Start the development server:
    ```bash
    npm run dev
    ```
