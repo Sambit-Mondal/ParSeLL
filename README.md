@@ -21,9 +21,10 @@
    cd next-app
    ```
    
-3. Install dependencies:
+3. Install dependencies and requirements:
    ```bash
    npm install
+   pip install -r requirements.txt
    ```
 
 4. Create a `.env` file and fill in the following:
@@ -62,6 +63,16 @@ PINECONE_API_KEY="your_pinecone_api_key"
 5. Start the development server:
    ```bash
    npm run dev
+   ```
+
+6. In a new terminal, run the command:
+   ```bash
+   python src/backend/server.py
+   ```
+
+7. In another terminal, run the command:
+   ```bash
+   streamlit run src/backend/compliance.py
    ```
 
 
